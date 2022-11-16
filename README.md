@@ -1,20 +1,16 @@
-# csce5550_group18_ransomware
+csce5550_group18_ransomware
 Ransomeware Project For Group 18: CSCE 5550
-#################################
-#################################
-####group_18_ransomware.py#######
-####Group 18###Prof. Tunc###UNT##
-####CSCE 5550####FA22############
-#################################
-#################################
+group_18_ransomware.py
+Group 18.  Prof. Tunc.        UNT
+CSCE 5550 FA22
+
 # Disclaimer: Ransomware is ILLEGAL. Do not run in production environments.
 # This ransomware program was built for educational purposes as part of a research project. If you use
 # this then it is at your own risk.
 #
 # Author: cjd0125 //dogthebountycoder
 # Version 1.0a 11/15/2022
-#######################################################################################################################
-#######################################################################################################################
+
 # Instructions:
 # Step 1: CHANGE GLOBAL VARIABLES FOR DIRECTORY USE
 #
@@ -41,4 +37,3 @@ Ransomeware Project For Group 18: CSCE 5550
 # These will, in order, decrypt the fernet key, then decrypt each file in directory. BUT, the privateKey.pem will
 # need to be re-created if you ran delete_private_key() in Step 7. If you want to decrypt without having to create
 # the new privateKey.pem then comment out Step 7.
-##########################################################################################################################
