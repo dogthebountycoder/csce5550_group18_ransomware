@@ -1,8 +1,4 @@
-csce5550_group18_ransomware
-Ransomeware Project For Group 18: CSCE 5550
-group_18_ransomware.py
-Group 18.  Prof. Tunc.        UNT
-CSCE 5550 FA22
+Ransomware Project For Group18: CSCE 5550
 
  Disclaimer: Ransomware is ILLEGAL. Do not run in production environments.
  This ransomware program was built for educational purposes as part of a research project. If you use
