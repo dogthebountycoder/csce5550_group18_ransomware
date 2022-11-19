@@ -159,8 +159,8 @@ def send_privkey():
     # Set up email headers
     sub = "Group 18 Private Key"
     body = open(RSA_KEY_LOCATION + 'privateKey.pem', 'r').read()
-    s_email = "cjdinvesting@gmail.com" # INPUT SENDER EMAIL
-    r_email = "cjdinvesting@gmail.com" # INPUT RECEIVING EMAIL
+    s_email = SENDER_EMAIL # INPUT SENDER EMAIL
+    r_email = RECEIVER_EMAIL # INPUT RECEIVING EMAIL
 
     # Set up message contents
     message = MIMEMultipart()
